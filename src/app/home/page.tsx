@@ -105,6 +105,7 @@ const page = () => {
       formik.resetForm();
       setImagePrev([]);
       setErrorMessage("");
+      setNoOfCopies(1);
       toast.success("Car added successfully!");
       console.log("carInfo", values);
     },
