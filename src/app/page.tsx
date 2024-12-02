@@ -1,95 +1,75 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { styled, Box, Typography } from "@mui/material";
+import CustomInputTitle from "@/component/atoms/InputTitle/InputTitle";
+import CustomTextField from "@/component/atoms/TextField/TextField";
+import { useFormik } from "formik";
+import { loginSchema } from "@/schema/Schema";
+import ErrorBox from "@/component/atoms/ErrorBox/ErrorBox";
+import CustomButton from "@/component/atoms/Button/Button";
 
-export default function Home() {
+const SignInContainer = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "100vh",
+});
+
+const SignInCard = styled(Box)({
+  padding: "32px",
+  borderRadius: "8px",
+  width: "500px",
+});
+const Title = styled(Typography)({
+  textAlign: "center",
+  fontSize: "24px",
+  marginBottom: "20px",
+  fontWeight: "600",
+});
+
+const SignIn = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      console.log("login user", values);
+    },
+  });
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <SignInContainer>
+      <SignInCard>
+        <Title>Sign In</Title>
+        <form onSubmit={formik.handleSubmit}>
+          <CustomInputTitle>E-mail</CustomInputTitle>
+          <CustomTextField
+            type="email"
+            placeholder="namn@mail.com"
+            name="email"
+            value={formik.values.email}
+            handleChange={formik.handleChange}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <ErrorBox message={formik.errors.email} />
+          )}
+          <CustomInputTitle>Password</CustomInputTitle>
+          <CustomTextField
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={formik.values.password}
+            handleChange={formik.handleChange}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <ErrorBox message={formik.errors.password} />
+          )}
+          <CustomButton text="Sign In" />
+        </form>
+      </SignInCard>
+    </SignInContainer>
+  );
+};
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default SignIn;
