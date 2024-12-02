@@ -6,6 +6,8 @@ import CustomTextField from "@/component/atoms/TextField/TextField";
 import { carInfoSchema } from "@/schema/Schema";
 import Grid from "@mui/material/Grid2";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+
 import {
   Box,
   FormControl,
@@ -100,6 +102,10 @@ const page = () => {
     },
     validationSchema: carInfoSchema,
     onSubmit: (values) => {
+      formik.resetForm();
+      setImagePrev([]);
+      setErrorMessage("");
+      toast.success("Car added successfully!");
       console.log("carInfo", values);
     },
   });

@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import { loginSchema } from "@/schema/Schema";
 import ErrorBox from "@/component/atoms/ErrorBox/ErrorBox";
 import CustomButton from "@/component/atoms/Button/Button";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const SignInContainer = styled(Box)({
   display: "flex",
@@ -27,6 +29,7 @@ const Title = styled(Typography)({
 });
 
 const SignIn = () => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,6 +38,7 @@ const SignIn = () => {
     validationSchema: loginSchema,
     onSubmit: (values) => {
       console.log("login user", values);
+      router.push("/home");
     },
   });
 
